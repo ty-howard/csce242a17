@@ -315,23 +315,20 @@ app.get("/api/crafts", (req, res)=>{
     res.send(crafts);
 });
 
-// Define a variable to keep track of the latest ID used
 let latestCraftId = crafts.length > 0 ? crafts[crafts.length - 1]._id : 0;
 
-// Inside your POST route handler
 app.post("/api/crafts", upload.single("img"), (req, res) => {
   const result = validateCraft(req.body);
 
   if (result.error) {
     res.status(400).send(result.error.details[0].message);
-    return; // Add return statement to exit early on error
+    return;
   }
 
-  // Increment the latest craft ID
   latestCraftId++;
 
   const craft = {
-    _id: latestCraftId, // Use the incremented ID
+    _id: latestCraftId,
     name: req.body.name,
     description: req.body.description,
     supplies: req.body.supplies.split(","),
